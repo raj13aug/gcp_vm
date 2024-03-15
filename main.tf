@@ -66,4 +66,6 @@ resource "google_compute_instance" "demo" {
 EOT
 
   allow_stopping_for_update = true
+
+  resource_policies = [google_compute_resource_policy.uptime_schedule.id]
 }
