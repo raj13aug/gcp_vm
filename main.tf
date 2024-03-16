@@ -69,3 +69,28 @@ EOT
 
   resource_policies = [google_compute_resource_policy.uptime_schedule.id]
 }
+
+resource "google_compute_firewall" "demo-ssh-ipv4" {
+  project = google_project.project.project_id
+
+  name    = "staging-demo-ssh-ipv4"
+  network = google-cloud-vpc.id
+
+  allow {
+    protocol = "tcp"
+    ports    = [22]
+  }
+
+  allow {
+    protocol = "udp"
+    ports    = [22]
+  }
+
+  allow {
+    protocol = "sctp"
+    ports    = [22]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = google_compute_instance.demo.tags
+}
