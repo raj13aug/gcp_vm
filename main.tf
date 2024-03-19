@@ -12,7 +12,7 @@ resource "google_compute_instance" "demo" {
   project = var.project_id
 
   name         = "demo"
-  machine_type = "n1-standard-1"
+  machine_type = "e2-micro"
   zone         = "${local.region}-d"
 
   tags = ["demo"]
@@ -51,7 +51,7 @@ resource "google_compute_firewall" "demo-ssh-ipv4" {
   project = var.project_id
 
   name    = "staging-demo-ssh-ipv4"
-  network = google-cloud-vpc.id
+  network = "default"
 
   allow {
     protocol = "tcp"
