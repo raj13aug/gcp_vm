@@ -13,7 +13,7 @@ resource "google_compute_instance" "demo" {
 
   name         = var.name
   machine_type = "e2-micro"
-  zone         = "${local.region}-d"
+  zone         = "${local.region}-a"
 
   tags = ["demo"]
 
@@ -30,7 +30,7 @@ resource "google_compute_instance" "demo" {
   }
 
   network_interface {
-
+    network = "default"
     access_config {
       // Ephemeral public IP
     }
@@ -55,19 +55,7 @@ resource "google_compute_firewall" "demo-ssh-ipv4" {
 
   allow {
     protocol = "tcp"
-    ports    = [22]
+    ports    = [80]
   }
-
-  allow {
-    protocol = "udp"
-    ports    = [22]
-  }
-
-  allow {
-    protocol = "sctp"
-    ports    = [22]
-  }
-
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = google_compute_instance.demo.tags
 }
