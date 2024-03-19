@@ -11,7 +11,7 @@ locals {
 resource "google_compute_instance" "demo" {
   project = var.project_id
 
-  name         = "demo"
+  name         = var.name
   machine_type = "e2-micro"
   zone         = "${local.region}-d"
 

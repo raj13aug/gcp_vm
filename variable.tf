@@ -1,5 +1,6 @@
 variable "name" {
   description = "Name of a Google Cloud Project"
+  default     = "cloudroot7-demo"
 }
 
 variable "id" {
