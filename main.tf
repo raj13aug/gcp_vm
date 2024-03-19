@@ -46,16 +46,3 @@ EOT
   allow_stopping_for_update = true
 
 }
-
-resource "google_compute_firewall" "demo-ssh-ipv4" {
-  project = var.project_id
-
-  name    = "staging-demo-ssh-ipv4"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = [80]
-  }
-  source_ranges = ["0.0.0.0/0"]
-}
