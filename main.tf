@@ -5,7 +5,7 @@ data "google_compute_image" "demo" {
 
 locals {
   region            = "us-central1"
-  availability_zone = "us-central1-d"
+  availability_zone = "us-central1-a"
 }
 
 resource "google_compute_instance" "demo" {
