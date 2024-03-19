@@ -4,29 +4,12 @@ data "google_compute_image" "demo" {
 }
 
 locals {
-  region            = "us-east1"
-  availability_zone = "us-east1-d"
+  region            = "us-central1"
+  availability_zone = "us-central1-d"
 }
-
-resource "google_project" "project" {
-  name = var.name
-
-  org_id          = var.organization_id
-  billing_account = var.billing_account_id
-  project_id      = var.id != "" ? var.id : replace(lower(var.name), " ", "-")
-}
-
-
-resource "google_service_account" "demo" {
-  project = google_project.project.project_id
-
-  account_id   = "demo-instance"
-  display_name = "Custom Service Account for a Demo VM Instance"
-}
-
 
 resource "google_compute_instance" "demo" {
-  project = google_project.project.project_id
+  project = var.project_id
 
   name         = "demo"
   machine_type = "n1-standard-1"
@@ -53,11 +36,6 @@ resource "google_compute_instance" "demo" {
     }
   }
 
-  metadata = {
-    google-logging-enabled    = "true"
-    google-monitoring-enabled = "true"
-  }
-
   # We can install any tools we need for the demo in the startup script
   metadata_startup_script = <<EOT
   set -xe \
@@ -67,11 +45,10 @@ EOT
 
   allow_stopping_for_update = true
 
-  resource_policies = [google_compute_resource_policy.uptime_schedule.id]
 }
 
 resource "google_compute_firewall" "demo-ssh-ipv4" {
-  project = google_project.project.project_id
+  project = var.project_id
 
   name    = "staging-demo-ssh-ipv4"
   network = google-cloud-vpc.id

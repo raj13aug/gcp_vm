@@ -1,10 +1,15 @@
 terraform {
-  required_version = ">=0.13"
-
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">=4.1.0"
+      version = "5.6.0"
     }
   }
+}
+
+provider "google" {
+  credentials = file("terraform_credentails.json")
+  project     = var.project_id
+  region      = "us-central1"
+  zone        = "us-central1-a"
 }
