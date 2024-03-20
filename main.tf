@@ -8,6 +8,8 @@ locals {
   availability_zone = "us-central1-a"
 }
 
+
+
 resource "google_compute_instance" "demo" {
   project = var.project_id
 
@@ -34,6 +36,11 @@ resource "google_compute_instance" "demo" {
     access_config {
       // Ephemeral public IP
     }
+  }
+
+  #https://8gwifi.org/sshfunctions.jsp
+  metadata = {
+    sshKeys = file("./assets/ssh_keys")
   }
 
   # We can install any tools we need for the demo in the startup script
