@@ -8,7 +8,9 @@ locals {
   availability_zone = "us-central1-a"
 }
 
-
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+}
 
 resource "google_compute_instance" "demo" {
   project = var.project_id
@@ -38,9 +40,9 @@ resource "google_compute_instance" "demo" {
     }
   }
 
-  #https://8gwifi.org/sshfunctions.jsp
+
   metadata = {
-    sshKeys = file("./assets/ssh_keys")
+    sshKeys = "ubuntu:${tls_private_key.ssh.public_key_openssh}"
   }
 
   # We can install any tools we need for the demo in the startup script
@@ -78,4 +80,15 @@ resource "google_compute_firewall" "demo-ssh-ipv4" {
 
   source_ranges = ["0.0.0.0/0"]
   target_tags   = google_compute_instance.demo.tags
+}
+
+
+resource "local_file" "local_ssh_key" {
+  content  = tls_private_key.ssh.private_key_pem
+  filename = "${path.root}/ssh-keys/ssh_key"
+}
+
+resource "local_file" "local_ssh_key_pub" {
+  content  = tls_private_key.ssh.public_key_openssh
+  filename = "${path.root}/ssh-keys/ssh_key.pub"
 }
