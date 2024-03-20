@@ -56,10 +56,10 @@ EOT
 
 
 resource "google_compute_firewall" "demo-ssh-ipv4" {
-  project = google_project.project.project_id
+
 
   name    = "staging-demo-ssh-ipv4"
-  network = google-cloud-vpc.id
+  network = "default"
 
   allow {
     protocol = "tcp"
