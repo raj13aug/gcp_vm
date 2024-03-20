@@ -92,3 +92,12 @@ resource "local_file" "local_ssh_key_pub" {
   content  = tls_private_key.ssh.public_key_openssh
   filename = "${path.root}/ssh-keys/ssh_key.pub"
 }
+
+output "instance_ip" {
+  value = google_compute_instance.demo.network_interface.0.access_config.0.nat_ip
+}
+
+output "instance_ssh_key" {
+  value      = "${abspath(path.root)}/ssh_key"
+  depends_on = [tls_private_key.ssh]
+}
