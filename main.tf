@@ -52,8 +52,6 @@ resource "google_compute_instance" "demo" {
     && sudo apt install postgresql-client jq iperf3 -y 
 EOT
 
-  allow_stopping_for_update = true
-
 }
 
 
